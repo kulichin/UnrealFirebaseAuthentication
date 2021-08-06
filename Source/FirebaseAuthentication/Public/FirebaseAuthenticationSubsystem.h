@@ -4,7 +4,7 @@
  *	This library is free software; you can redistribute it and/or
  *	modify it under the terms of the Apache License Version 2.0.
  * 
- *	See file LICENSE.md for further informations on licensing terms.
+ *	See file LICENSE for further informations on licensing terms.
  */
 
 #pragma once
