@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools">
+	<init>
+		<setStringFromProperty
+			result="PackageName"
+			ini="Engine"
+			section="/Script/AndroidRuntimeSettings.AndroidRuntimeSettings"
+			property="PackageName"
+			default="" />
+
+		<setStringFromProperty
+			result="FacebookAppID"
+			ini="Engine"
+			section="/Script/FirebaseAuthentication.FirebaseSettings"
+			property="FacebookAppID"
+			default="" />
+	</init>
+
+	<!--Enable AndroidX support-->
+	<gradleProperties>
+		<insert> 
+			android.useAndroidX = true
+			android.enableJetifier = true
+		</insert>
+	</gradleProperties>
+
+	<!-- Replace supportlib imports with AndroidX in engine source files -->
+	<baseBuildGradleAdditions>
+		<insert>
+			allprojects
+			{
+				def mappings =
+				[
+					'android.arch.lifecycle.Lifecycle':                 'androidx.lifecycle.Lifecycle',
+					'android.arch.lifecycle.LifecycleObserver':         'androidx.lifecycle.LifecycleObserver',
+					'android.arch.lifecycle.OnLifecycleEvent':          'androidx.lifecycle.OnLifecycleEvent',
+					'android.arch.lifecycle.ProcessLifecycleOwner':     'androidx.lifecycle.ProcessLifecycleOwner',
+					'android.arch.lifecycle':                           'androidx.lifecycle',
+					'android.support.annotation':                       'androidx.annotation',
+					'android.support.v13.app.FragmentCompat':           'androidx.legacy.app.FragmentCompat',
+					'android.support.v4.app.ActivityCompat':            'androidx.core.app.ActivityCompat',
+					'android.support.v4.app.NotificationCompat':        'androidx.core.app.NotificationCompat',
+					'android.support.v4.app.NotificationManagerCompat': 'androidx.core.app.NotificationManagerCompat',
+					'android.support.v4.content.ContextCompat':         'androidx.core.content.ContextCompat',
+					'android.support.v4.content.FileProvider':          'androidx.core.content.FileProvider',
+				]
+
+				beforeEvaluate { project ->
+					project.rootProject.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.java$/) { f ->
+					mappings.each { entry ->
+						if (f.getText('UTF-8').contains(entry.key)) {
+								println "Updating ${entry.key} to ${entry.value} in file ${f}"
+								ant.replace(file: f, token: entry.key, value: entry.value)
+							}
+						}
+					}
+				}
+			}
+		</insert>
+	</baseBuildGradleAdditions>
+
+	<!-- Add additional Facebook info into manifest file -->
+	<androidManifestUpdates>
+		<addElements tag="application">
+			<meta-data
+				android:name="com.facebook.sdk.ApplicationId"
+				android:value="@string/FacebookAppID"
+				tools:replace="android:value" />
+
+			<activity
+				android:name="com.facebook.FacebookActivity"
+				android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+				android:label="@string/app_name" />
+
+			<activity 
+				android:name="com.facebook.CustomTabActivity" 
+				android:exported="true">
+				<intent-filter>
+					<action android:name="android.intent.action.VIEW" />
+					<category android:name="android.intent.category.DEFAULT" />
+					<category android:name="android.intent.category.BROWSABLE" />
+				</intent-filter>
+			</activity>
+
+		</addElements>
+		<addPermission android:name="android.permission.INTERNET" />
+	</androidManifestUpdates>
+
+	<!-- Gradle additions -->
+	<gradleProperties>
+		<insertValue value="FACEBOOK_APP_ID=$S(FacebookAppID)" />
+		<insertNewline />
+	</gradleProperties>
+
+	<!-- Gradle additions -->
+	<buildGradleAdditions>
+		<insert>
+			apply plugin: 'com.google.gms.google-services'
+			android
+			{
+				buildTypes
+				{
+					buildTypes.each
+					{
+						it.resValue "string", "FacebookAppID", FACEBOOK_APP_ID
+					}
+				}
+			}
+		</insert>
+		<insert>
+			android
+			{
+				compileOptions
+				{
+					targetCompatibility JavaVersion.VERSION_1_8
+					sourceCompatibility JavaVersion.VERSION_1_8
+				}
+			}
+		</insert>
+	</buildGradleAdditions>
+
+	<!-- Copy directory with authentication classes & google-services.json -->
+	<gradleCopies>
+		<copyDir
+			src="$S(PluginDir)/ThirdParty/Android/FirebaseAuthentication/"
+			dst="$S(BuildDir)/gradle/app/src/main/java/com/kulichin/firebaseauthentication/" />
+
+		<copyFile
+			src="$S(PluginDir)/../../../../Build/Android/google-services.json"
+			dst="$S(BuildDir)/gradle/app/google-services.json" />
+	</gradleCopies>
+
+	<!-- Import dependencies -->
+	<AARImports>
+		<insertValue value="com.google.firebase,firebase-auth,21.0.1" />
+		<insertNewline />
+
+		<insertValue value="com.facebook.android,facebook-login,11.2.0" />
+		<insertNewline />
+
+		<replace find="play-services-auth,11.8.0"   with="play-services-auth,19.2.0" />
+		<replace find="play-services-games,11.8.0"  with="play-services-games,21.0.0" />
+		<replace find="play-services-nearby,11.8.0" with="play-services-nearby,18.0.0" />
+		<replace find="play-services-plus,11.8.0"   with="play-services-plus,17.0.0" />
+	</AARImports>
+
+	<!-- Import dependencies -->
+	<buildscriptGradleAdditions>
+		<insert>
+			dependencies
+			{
+				classpath 'com.google.gms:google-services:4.3.8'
+			}
+		</insert>
+	</buildscriptGradleAdditions>
+
+	<!-- Keep some authentication classes -->
+	<proguardAdditions>
+		<insert>
+			-dontwarn com.kulichin.**
+			-keep class com.kulichin.** { *; }
+			-keep interface com.kulichin.** { *; }
+		</insert>
+	</proguardAdditions>
+
+	<!-- GameActivity.java additions -->
+	<gameActivityImportAdditions>
+		<insert>
+			import com.kulichin.firebaseauthentication.EmailAuthentication;
+			import com.kulichin.firebaseauthentication.AnonymousAuthentication;
+			import com.kulichin.firebaseauthentication.FacebookAuthentication;
+			import com.kulichin.firebaseauthentication.GoogleAuthentication;
+			import com.kulichin.firebaseauthentication.OAuthAuthentication;
+			import com.kulichin.firebaseauthentication.PhoneAuthentication;
+			import com.kulichin.firebaseauthentication.BaseAuthentication;
+			import com.kulichin.firebaseauthentication.BaseAuthentication.FirebaseUserWrapper;
+		</insert>
+	</gameActivityImportAdditions>
+
+	<!-- GameActivity.java additions -->
+	<gameActivityOnCreateAdditions>
+		<insert>
+			// Initialize classes
+			BaseAuth = new BaseAuthentication();
+			EmailAuth = new EmailAuthentication();
+			AnonymousAuth = new AnonymousAuthentication();
+			FacebookAuth = new FacebookAuthentication(this);
+			GoogleAuth = new GoogleAuthentication(this);
+			PhoneAuth = new PhoneAuthentication(this);
+			OAuth = new OAuthAuthentication(this);
+		</insert>
+	</gameActivityOnCreateAdditions>
+
+	<!-- GameActivity.java additions -->
+	<gameActivityClassAdditions>
+		<insert>
+			private BaseAuthentication BaseAuth;
+			private EmailAuthentication EmailAuth;
+			private AnonymousAuthentication AnonymousAuth;
+			private FacebookAuthentication FacebookAuth;
+			private GoogleAuthentication GoogleAuth;
+			private PhoneAuthentication PhoneAuth;
+			private OAuthAuthentication OAuth;
+
+			/*
+			*	Email authentication methods
+			*/
+			public void AndroidThunkJava_EmailSignIn(String Email, String Password)
+			{
+				EmailAuth.EmailSignIn(Email, Password);
+			}
+
+			public void AndroidThunkJava_CreateAccountWithEmail(String Email, String Password)
+			{
+				EmailAuth.CreateAccountWithEmail(Email, Password);
+			}
+
+			public void AndroidThunkJava_SendEmailVerification()
+			{
+				EmailAuth.SendEmailVerification();
+			}
+
+			public void AndroidThunkJava_SendPasswordResetLinkOnEmail(String Email)
+			{
+				EmailAuth.SendPasswordResetLinkOnEmail(Email);
+			}
+
+			public void AndroidThunkJava_UpdatePassword(String NewPassword)
+			{
+				EmailAuth.UpdatePassword(NewPassword);
+			}
+
+			/*
+			*	Phone authentication methods
+			*/
+			public void AndroidThunkJava_SignInWithSMSCode(String PhoneNumber, int Timeout)
+			{
+				PhoneAuth.SignInWithSMSCode(PhoneNumber, Timeout);
+			}
+
+			/*
+			*	Google authentication methods
+			*/
+			public void AndroidThunkJava_GoogleSignIn()
+			{
+				GoogleAuth.GoogleSignIn();
+			}
+
+			public void AndroidThunkJava_GoogleSignOut()
+			{
+			GoogleAuth.GoogleSignOut();
+			}
+
+			public void AndroidThunkJava_GoogleRevokeAccess()
+			{
+				GoogleAuth.GoogleRevokeAccess();
+			}
+
+			/*
+			*	Anonymous authentication methods
+			*/
+			public void AndroidThunkJava_AnonymousSignIn()
+			{
+				AnonymousAuth.AnonymousSignIn();
+			}
+
+			public void AndroidThunkJava_LinkAnonymousAccountWithEmail(String Email, String Password)
+			{
+				AnonymousAuth.LinkAnonymousAccountWithEmail(Email, Password);
+			}
+
+			/*
+			*	Facebook authentication methods
+			*/
+			public void AndroidThunkJava_FacebookSignIn()
+			{
+				FacebookAuth.FacebookSignIn();
+			}
+
+			public void AndroidThunkJava_FacebookSignOut()
+			{
+				FacebookAuth.FacebookSignOut();
+			}
+
+			/*
+			*	OAuth authentication methods
+			*/
+			public void AndroidThunkJava_OAuthSignIn(String ProviderID)
+			{
+				OAuth.OAuthSignIn(ProviderID);
+			}
+
+			/*
+			*	Base firebase authentication methods
+			*/
+			public FirebaseUserWrapper AndroidThunkJava_GetFirebaseUser()
+			{
+				return BaseAuthentication.GetFirebaseUser();
+			}
+
+			public void AndroidThunkJava_ReloadFirebaseUser()
+			{
+				BaseAuthentication.ReloadFirebaseUser();
+			}
+
+			public void AndroidThunkJava_FirebaseSignOut()
+			{
+				BaseAuthentication.FirebaseAccountSignOut();
+			}
+		</insert>
+	</gameActivityClassAdditions>
+
+	<!-- GameActivity.java additions -->
+	<gameActivityOnActivityResultAdditions>
+		<insert>
+			GoogleAuth.ActivityResult(requestCode, resultCode, data);
+			FacebookAuth.ActivityResult(requestCode, resultCode, data);
+		</insert>
+	</gameActivityOnActivityResultAdditions>
+
+</root>
