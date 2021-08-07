@@ -464,7 +464,6 @@ DECLARE_DYNAMIC_DELEGATE_ThreeParams(
 	const FGoogleSignInAccount&, GoogleSignInAccount, 
 	const FFirebaseUser&, FirebaseUser);
 
-// TODO: fix facebook authentication
 UCLASS()
 class UGoogleBillingSubsystem : public UGameInstanceSubsystem
 {
