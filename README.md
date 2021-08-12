@@ -1,4 +1,4 @@
-# Unreal Firebase Authentication
+# Firebase Authentication plugin
 ## Description:
 
 ## Features
