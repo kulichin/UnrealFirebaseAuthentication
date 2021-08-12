@@ -1,11 +1,4 @@
-/**
- *	Copyright (C) 2021. Nikita Klimov. All rights reserved.
- *
- *	This library is free software; you can redistribute it and/or
- *	modify it under the terms of the Apache License Version 2.0.
- * 
- *	See file LICENSE for further informations on licensing terms.
- */
+// Copyright (C) 2021. Nikita Klimov. All rights reserved.
 
 #pragma once
 
@@ -49,7 +42,6 @@ struct FGoogleSignInAccount
 	UPROPERTY(BlueprintReadOnly)
 	FString GivenName;
 
-	// TODO: check this
 	/**
 	 *	Returns all scopes that have been authorized to your application.
 	 */
