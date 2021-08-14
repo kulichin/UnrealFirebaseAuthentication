@@ -8,7 +8,7 @@ Currently authentication is available in the following services:
 - Microsoft
 - Twitter
 
-And the following built-in Firebase Authentication methods are available:
+And also the following built-in Firebase Authentication methods are available:
 - Anonymously
 - Phone Number
 - Email/Password
