@@ -164,7 +164,7 @@ struct FFirebaseUser
  * https://developers.google.com/android/reference/com/google/android/gms/common/api/CommonStatusCodes
  */
 UENUM(BlueprintType)
-enum ECommonStatusCodes
+enum class ECommonStatusCodes : uint8
 {
 	/**
 	 *	The operation was successful, but was used the device's cache.
@@ -417,7 +417,7 @@ enum ECommonStatusCodes
 };
 
 UENUM(BlueprintType)
-enum EOAuthProvider
+enum class EOAuthProvider : uint8
 {
 	Apple,
 	Github,
@@ -457,7 +457,7 @@ DECLARE_DYNAMIC_DELEGATE_ThreeParams(
 	const FFirebaseUser&, FirebaseUser);
 
 UCLASS()
-class UGoogleBillingSubsystem : public UGameInstanceSubsystem
+class UFirebaseAuthenticationSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 

@@ -1,7 +1,7 @@
 // Copyright (C) 2021. Nikita Klimov. All rights reserved.
 
 #include "FirebaseAuthentication.h"
-#include "FirebaseSettings.h"
+#include "FirebaseAuthenticationSettings.h"
 #include "Settings/Public/ISettingsModule.h"
 
 #define LOCTEXT_NAMESPACE "FFirebaseAuthenticationModule"
@@ -16,7 +16,7 @@ void FFirebaseAuthenticationModule::StartupModule()
 			TEXT("Firebase Authentication"),
 			LOCTEXT("Firebase Authentication", "Firebase Authentication"), 
 			LOCTEXT("Facebook", "Settings for Facebook Authentication"),
-			GetMutableDefault<UFirebaseSettings>());
+			GetMutableDefault<UFirebaseAuthenticationSettings>());
 	}
 }
 

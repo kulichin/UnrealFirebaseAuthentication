@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "FirebaseSettings.generated.h"
+#include "FirebaseAuthenticationSettings.generated.h"
 
 UCLASS(transient, config = Engine)
-class UFirebaseSettings : public UObject
+class UFirebaseAuthenticationSettings : public UObject
 {
 	GENERATED_BODY()
 

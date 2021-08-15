@@ -214,7 +214,7 @@ static FFirebaseUser GetFirebaseUserStructFromJavaObject(
 
 #endif
 
-FFirebaseUser UGoogleBillingSubsystem::GetFirebaseUser()
+FFirebaseUser UFirebaseAuthenticationSubsystem::GetFirebaseUser()
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -233,7 +233,7 @@ FFirebaseUser UGoogleBillingSubsystem::GetFirebaseUser()
 	return {};
 }
 
-void UGoogleBillingSubsystem::ReloadFirebaseUser(
+void UFirebaseAuthenticationSubsystem::ReloadFirebaseUser(
 	FFirebaseAuthenticationResult ReloadResultDelegate)
 {
 #if PLATFORM_ANDROID
@@ -251,7 +251,7 @@ void UGoogleBillingSubsystem::ReloadFirebaseUser(
 #endif
 }
 
-void UGoogleBillingSubsystem::AnonymousSignIn(
+void UFirebaseAuthenticationSubsystem::AnonymousSignIn(
 	FFirebaseAuthenticationResult AuthenticationResultDelegate)
 {
 #if PLATFORM_ANDROID
@@ -269,14 +269,14 @@ void UGoogleBillingSubsystem::AnonymousSignIn(
 #endif
 }
 
-void UGoogleBillingSubsystem::AnonymousSignOut()
+void UFirebaseAuthenticationSubsystem::AnonymousSignOut()
 {
 #if PLATFORM_ANDROID
 	FirebaseSignOut();
 #endif
 }
 
-void UGoogleBillingSubsystem::LinkAnonymousAccountWithEmail(
+void UFirebaseAuthenticationSubsystem::LinkAnonymousAccountWithEmail(
 	FFirebaseFunctionResult FunctionResultDelegate,
 	const FString& Email, 
 	const FString& Password)
@@ -300,7 +300,7 @@ void UGoogleBillingSubsystem::LinkAnonymousAccountWithEmail(
 #endif
 }
 
-void UGoogleBillingSubsystem::EmailSignIn(
+void UFirebaseAuthenticationSubsystem::EmailSignIn(
 	FFirebaseAuthenticationResult AuthenticationResultDelegate,
 	const FString& Email, 
 	const FString& Password)
@@ -324,7 +324,7 @@ void UGoogleBillingSubsystem::EmailSignIn(
 #endif
 }
 
-void UGoogleBillingSubsystem::CreateAccountWithEmail(
+void UFirebaseAuthenticationSubsystem::CreateAccountWithEmail(
 	FFirebaseFunctionResult FunctionResultDelegate,
 	const FString& Email, 
 	const FString& Password)
@@ -348,7 +348,7 @@ void UGoogleBillingSubsystem::CreateAccountWithEmail(
 #endif
 }
 
-void UGoogleBillingSubsystem::SendEmailVerification(
+void UFirebaseAuthenticationSubsystem::SendEmailVerification(
 	FFirebaseFunctionResult FunctionResultDelegate)
 {
 #if PLATFORM_ANDROID
@@ -366,7 +366,7 @@ void UGoogleBillingSubsystem::SendEmailVerification(
 #endif
 }
 
-void UGoogleBillingSubsystem::SendPasswordResetLinkOnEmail(
+void UFirebaseAuthenticationSubsystem::SendPasswordResetLinkOnEmail(
 	FFirebaseFunctionResult FunctionResultDelegate, 
 	const FString& Email)
 {
@@ -388,7 +388,7 @@ void UGoogleBillingSubsystem::SendPasswordResetLinkOnEmail(
 #endif
 }
 
-void UGoogleBillingSubsystem::UpdatePassword(
+void UFirebaseAuthenticationSubsystem::UpdatePassword(
 	FFirebaseFunctionResult FunctionResultDelegate, 
 	const FString& NewPassword)
 {
@@ -411,14 +411,14 @@ void UGoogleBillingSubsystem::UpdatePassword(
 
 }
 
-void UGoogleBillingSubsystem::EmailSignOut()
+void UFirebaseAuthenticationSubsystem::EmailSignOut()
 {
 #if PLATFORM_ANDROID
 	FirebaseSignOut();
 #endif
 }
 
-void UGoogleBillingSubsystem::FacebookSignIn(
+void UFirebaseAuthenticationSubsystem::FacebookSignIn(
 	FFirebaseAuthenticationResult AuthenticationResultDelegate)
 {
 #if PLATFORM_ANDROID
@@ -436,7 +436,7 @@ void UGoogleBillingSubsystem::FacebookSignIn(
 #endif
 }
 
-void UGoogleBillingSubsystem::FacebookSignOut()
+void UFirebaseAuthenticationSubsystem::FacebookSignOut()
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -447,7 +447,7 @@ void UGoogleBillingSubsystem::FacebookSignOut()
 #endif
 }
 
-void UGoogleBillingSubsystem::GoogleSignIn(
+void UFirebaseAuthenticationSubsystem::GoogleSignIn(
 	FGoogleAuthenticationResult AuthenticationResultDelegate)
 {
 #if PLATFORM_ANDROID
@@ -465,7 +465,7 @@ void UGoogleBillingSubsystem::GoogleSignIn(
 #endif
 }
 
-void UGoogleBillingSubsystem::GoogleSignOut(
+void UFirebaseAuthenticationSubsystem::GoogleSignOut(
 	FFirebaseFunctionResult FunctionResultDelegate)
 {
 #if PLATFORM_ANDROID
@@ -483,7 +483,7 @@ void UGoogleBillingSubsystem::GoogleSignOut(
 #endif
 }
 
-void UGoogleBillingSubsystem::GoogleRevokeAccess(
+void UFirebaseAuthenticationSubsystem::GoogleRevokeAccess(
 	FFirebaseFunctionResult FunctionResultDelegate)
 {
 #if PLATFORM_ANDROID
@@ -501,7 +501,7 @@ void UGoogleBillingSubsystem::GoogleRevokeAccess(
 #endif
 }
 
-void UGoogleBillingSubsystem::OAuthSignIn(
+void UFirebaseAuthenticationSubsystem::OAuthSignIn(
 	FFirebaseAuthenticationResult AuthenticationResultDelegate,
 	const EOAuthProvider OAuthProvider)
 {
@@ -544,14 +544,14 @@ void UGoogleBillingSubsystem::OAuthSignIn(
 #endif
 }
 
-void UGoogleBillingSubsystem::OAuthSignOut()
+void UFirebaseAuthenticationSubsystem::OAuthSignOut()
 {
 #if PLATFORM_ANDROID
 	FirebaseSignOut();
 #endif
 }
 
-void UGoogleBillingSubsystem::SignInWithSMSCode(
+void UFirebaseAuthenticationSubsystem::SignInWithSMSCode(
 	FPhoneAuthenticationResult AuthenticationResultDelegate,
 	FFirebaseFunctionResult CodeSentDelegate,
 	const FString& PhoneNumber, 
@@ -576,14 +576,14 @@ void UGoogleBillingSubsystem::SignInWithSMSCode(
 #endif
 }
 
-void UGoogleBillingSubsystem::PhoneSignOut()
+void UFirebaseAuthenticationSubsystem::PhoneSignOut()
 {
 #if PLATFORM_ANDROID
 	FirebaseSignOut();
 #endif
 }
 
-void UGoogleBillingSubsystem::FirebaseSignOut()
+void UFirebaseAuthenticationSubsystem::FirebaseSignOut()
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())

@@ -1,9 +1,9 @@
 // Copyright (C) 2021. Nikita Klimov. All rights reserved.
 
-#include "FirebaseSettings.h"
+#include "FirebaseAuthenticationSettings.h"
 
 #if WITH_EDITOR
-void UFirebaseSettings::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
+void UFirebaseAuthenticationSettings::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	SaveConfig(CPF_Config, *GetDefaultConfigFilename());
