@@ -430,11 +430,11 @@ enum class EOAuthProvider : uint8
  *	Generic firebase delegates
  */
 DECLARE_DYNAMIC_DELEGATE_OneParam(
-	FFirebaseFunctionResult, 
+	FOnFirebaseFunctionCompleted, 
 	const ECommonStatusCodes, StatusCode);
 
 DECLARE_DYNAMIC_DELEGATE_TwoParams(
-	FFirebaseAuthenticationResult, 
+	FOnFirebaseAuthenticationCompleted, 
 	const ECommonStatusCodes, StatusCode,
 	const FFirebaseUser&, FirebaseUser);
 
@@ -442,7 +442,7 @@ DECLARE_DYNAMIC_DELEGATE_TwoParams(
  *	Phone authentication delegates
  */
 DECLARE_DYNAMIC_DELEGATE_ThreeParams(
-	FPhoneAuthenticationResult, 
+	FOnPhoneAuthenticationCompleted, 
 	const ECommonStatusCodes, StatusCode,
 	const FFirebaseUser&, FirebaseUser,
 	const FString&, CodeFromSMS);
@@ -451,7 +451,7 @@ DECLARE_DYNAMIC_DELEGATE_ThreeParams(
  *	Google authentication delegates
  */
 DECLARE_DYNAMIC_DELEGATE_ThreeParams(
-	FGoogleAuthenticationResult, 
+	FOnGoogleAuthenticationCompleted, 
 	const ECommonStatusCodes, StatusCode, 
 	const FGoogleSignInAccount&, GoogleSignInAccount, 
 	const FFirebaseUser&, FirebaseUser);
@@ -472,20 +472,20 @@ public:
 	 *	Manually refreshes the data of the current user (for example, attached
 	 *	providers, display name, and so on).
 	 *	
-	 *	@param ReloadResultDelegate callback which returns updated user info.
+	 *	@param OnOperationResult callback which returns updated user info.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase")
 	static void ReloadFirebaseUser(
-		FFirebaseAuthenticationResult ReloadResultDelegate);
+		FOnFirebaseAuthenticationCompleted OnOperationResult);
 	
 	/**
 	 *	Signs in the user anonymously without requiring any credential.
 	 *	
-	 *	@param AuthenticationResultDelegate callback when authentication operation has been completed.
+	 *	@param OnOperationResult callback when authentication operation has been completed.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | AnonymousAuthentication")
 	static void AnonymousSignIn(
-		FFirebaseAuthenticationResult AuthenticationResultDelegate);
+		FOnFirebaseAuthenticationCompleted OnOperationResult);
 	
 	/**
 	 *	Signs out the current user and clears it from the disk cache.
@@ -496,7 +496,7 @@ public:
 	/**
 	 *	Attaches the Email/Password credentials to the current user.
 	 *	
-	 *	@param FunctionResultDelegate callback when operation has been completed.
+	 *	@param OnOperationResult callback when operation has been completed.
 	 *	@param Email Attaches the given Email to the user. This allows the user to
 	 *				 sign in to this account in the future with
 	 *				 Email/Password credentials.
@@ -504,20 +504,20 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | AnonymousAuthentication")
 	static void LinkAnonymousAccountWithEmail(
-		FFirebaseFunctionResult FunctionResultDelegate,
+		FOnFirebaseFunctionCompleted OnOperationResult,
 		const FString& Email, 
 		const FString& Password);
 	
 	/**
 	 *	Tries to sign in a user with the given email address and password.
 	 *
-	 *	@param AuthenticationResultDelegate callback when authentication operation has been completed.
+	 *	@param OnOperationResult callback when authentication operation has been completed.
 	 *	@param Email
 	 *	@param Password
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | EmailAuthentication")
 	static void EmailSignIn(
-		FFirebaseAuthenticationResult AuthenticationResultDelegate,
+		FOnFirebaseAuthenticationCompleted OnOperationResult,
 		const FString& Email, 
 		const FString& Password);
 	
@@ -525,48 +525,48 @@ public:
 	 *	Tries to create a new user account with the given email address and password.
 	 *	If successful, it also signs the user in into the app.
 	 *
-	 *	@param FunctionResultDelegate callback when operation has been completed.
+	 *	@param OnOperationResult callback when operation has been completed.
 	 *	@param Email
 	 *	@param Password
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | EmailAuthentication")
 	static void CreateAccountWithEmail(
-		FFirebaseFunctionResult FunctionResultDelegate,
+		FOnFirebaseFunctionCompleted OnOperationResult,
 		const FString& Email, 
 		const FString& Password);
 
 	/**
 	 *	Initiates email verification for the user. 
 	 *	
-	 *	@param FunctionResultDelegate callback when operation has been completed.
+	 *	@param OnOperationResult callback when operation has been completed.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | EmailAuthentication")
 	static void SendEmailVerification(
-		FFirebaseFunctionResult FunctionResultDelegate);
+		FOnFirebaseFunctionCompleted OnOperationResult);
 	
 	/**
 	 *	Triggers the Firebase Authentication backend to send a password-reset
 	 *	email to the given email address, which must correspond to
 	 *	an existing user of your app.
 	 *
-	 *	@param FunctionResultDelegate callback when operation has been completed.
+	 *	@param OnOperationResult callback when operation has been completed.
 	 *	@param Email
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | EmailAuthentication")
 	static void SendPasswordResetLinkOnEmail(
-		FFirebaseFunctionResult FunctionResultDelegate,
+		FOnFirebaseFunctionCompleted OnOperationResult,
 		const FString& Email);
 	
 	/**
 	 *	Updates the password of the user.
 	 *	Important: this is a security sensitive operation that requires the user to have recently signed in.
 	 *
-	 *	@param FunctionResultDelegate callback when operation has been completed.
+	 *	@param OnOperationResult callback when operation has been completed.
 	 *	@param NewPassword
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | EmailAuthentication")
 	static void UpdatePassword(
-		FFirebaseFunctionResult FunctionResultDelegate,
+		FOnFirebaseFunctionCompleted OnOperationResult,
 		const FString& NewPassword);
 	
 	/**
@@ -578,11 +578,11 @@ public:
 	/**
 	 *	Prompts the user to authorize your application using the Login Dialog.
 	 *
-	 *	@param AuthenticationResultDelegate callback when authentication operation has been completed.
+	 *	@param OnOperationResult callback when authentication operation has been completed.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | FacebookAuthentication")
 	static void FacebookSignIn(
-		FFirebaseAuthenticationResult AuthenticationResultDelegate);
+		FOnFirebaseAuthenticationCompleted OnOperationResult);
 	
 	/**
 	 *	Signs out the current user and clears it from the disk cache.
@@ -591,40 +591,40 @@ public:
 	static void FacebookSignOut();
 
 	/**
-	 *	@param AuthenticationResultDelegate callback when authentication operation has been completed.
+	 *	@param OnOperationResult callback when authentication operation has been completed.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | GoogleAuthentication")
 	static void GoogleSignIn(
-		FGoogleAuthenticationResult AuthenticationResultDelegate);
+		FOnGoogleAuthenticationCompleted OnOperationResult);
 	
 	/**
 	 *	Signs out the current user and clears it from the disk cache.
 	 *	
-	 *	@param FunctionResultDelegate callback when operation has been completed.
+	 *	@param OnOperationResult callback when operation has been completed.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | GoogleAuthentication")
 	static void GoogleSignOut(
-		FFirebaseFunctionResult FunctionResultDelegate);
+		FOnFirebaseFunctionCompleted OnOperationResult);
 	
 	/**
 	 *	Revokes access given to the current application.
 	 *
-	 *	@param FunctionResultDelegate callback when operation has been completed.
+	 *	@param OnOperationResult callback when operation has been completed.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | GoogleAuthentication")
 	static void GoogleRevokeAccess(
-		FFirebaseFunctionResult FunctionResultDelegate);
+		FOnFirebaseFunctionCompleted OnOperationResult);
 	
 	/**
 	 *	Signs in the user using the mobile browser (either a Custom Chrome Tab
 	 *	or the device's default browser) for the given provider.
 	 *
-	 *	@param AuthenticationResultDelegate callback when authentication operation has been completed.
+	 *	@param OnOperationResult callback when authentication operation has been completed.
 	 *	@param OAuthProvider representation of an arbitrary federated authentication provider.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Firebase | OAuthAuthentication")
 	static void OAuthSignIn(
-		FFirebaseAuthenticationResult AuthenticationResultDelegate,
+		FOnFirebaseAuthenticationCompleted OnOperationResult,
 		const EOAuthProvider OAuthProvider);
 
 	/**
@@ -636,8 +636,8 @@ public:
 	/**
 	 *	Starts the phone verification process.
 	 *
-	 *	@param AuthenticationResultDelegate callback when authentication operation has been completed.
-	 *	@param CodeSentDelegate callback when code has been sent.
+	 *	@param OnAuthenticationResult callback when authentication operation has been completed.
+	 *	@param OnCodeSentResult callback when code has been sent.
 	 *	@param PhoneNumber the phone number for the account the user is signing up for or signing into.
 	 *					   Make sure to pass in a phone number with country code prefixed
 	 *					   with plus sign ('+').
@@ -646,8 +646,8 @@ public:
 	 */
     UFUNCTION(BlueprintCallable, Category = "Firebase | PhoneAuthentication")
 	static void SignInWithSMSCode(
-		FPhoneAuthenticationResult AuthenticationResultDelegate,
-		FFirebaseFunctionResult CodeSentDelegate,
+		FOnPhoneAuthenticationCompleted OnAuthenticationResult,
+		FOnFirebaseFunctionCompleted OnCodeSentResult,
 		const FString& PhoneNumber, 
 		const int Timeout);
 	

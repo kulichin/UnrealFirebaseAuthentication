@@ -234,7 +234,7 @@ FFirebaseUser UFirebaseAuthenticationSubsystem::GetFirebaseUser()
 }
 
 void UFirebaseAuthenticationSubsystem::ReloadFirebaseUser(
-	FFirebaseAuthenticationResult ReloadResultDelegate)
+	FOnFirebaseAuthenticationCompleted OnOperationResult)
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -242,7 +242,7 @@ void UFirebaseAuthenticationSubsystem::ReloadFirebaseUser(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseAuthenticationResult_Handle(ReloadResultDelegate);
+			Module->AddOnFirebaseAuthenticationCompleted_Handle(OnOperationResult);
 
 			// Call Java method
 			CallVoidMethod(Env, ReloadFirebaseUser_MethodID);
@@ -252,7 +252,7 @@ void UFirebaseAuthenticationSubsystem::ReloadFirebaseUser(
 }
 
 void UFirebaseAuthenticationSubsystem::AnonymousSignIn(
-	FFirebaseAuthenticationResult AuthenticationResultDelegate)
+	FOnFirebaseAuthenticationCompleted OnOperationResult)
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -260,7 +260,7 @@ void UFirebaseAuthenticationSubsystem::AnonymousSignIn(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseAuthenticationResult_Handle(AuthenticationResultDelegate);
+			Module->AddOnFirebaseAuthenticationCompleted_Handle(OnOperationResult);
 
 			// Call Java method
 			CallVoidMethod(Env, AnonymousSignIn_MethodID);
@@ -277,7 +277,7 @@ void UFirebaseAuthenticationSubsystem::AnonymousSignOut()
 }
 
 void UFirebaseAuthenticationSubsystem::LinkAnonymousAccountWithEmail(
-	FFirebaseFunctionResult FunctionResultDelegate,
+	FOnFirebaseFunctionCompleted OnOperationResult,
 	const FString& Email, 
 	const FString& Password)
 {
@@ -287,7 +287,7 @@ void UFirebaseAuthenticationSubsystem::LinkAnonymousAccountWithEmail(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseFunctionResult_Handle(FunctionResultDelegate);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnOperationResult);
 			
 			// Init Java strings
 			auto JEmail = FJavaHelper::ToJavaString(Env, Email);
@@ -301,7 +301,7 @@ void UFirebaseAuthenticationSubsystem::LinkAnonymousAccountWithEmail(
 }
 
 void UFirebaseAuthenticationSubsystem::EmailSignIn(
-	FFirebaseAuthenticationResult AuthenticationResultDelegate,
+	FOnFirebaseAuthenticationCompleted OnOperationResult,
 	const FString& Email, 
 	const FString& Password)
 {
@@ -311,7 +311,7 @@ void UFirebaseAuthenticationSubsystem::EmailSignIn(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseAuthenticationResult_Handle(AuthenticationResultDelegate);
+			Module->AddOnFirebaseAuthenticationCompleted_Handle(OnOperationResult);
 			
 			// Init Java strings
 			auto JEmail = FJavaHelper::ToJavaString(Env, Email);
@@ -325,7 +325,7 @@ void UFirebaseAuthenticationSubsystem::EmailSignIn(
 }
 
 void UFirebaseAuthenticationSubsystem::CreateAccountWithEmail(
-	FFirebaseFunctionResult FunctionResultDelegate,
+	FOnFirebaseFunctionCompleted OnOperationResult,
 	const FString& Email, 
 	const FString& Password)
 {
@@ -335,7 +335,7 @@ void UFirebaseAuthenticationSubsystem::CreateAccountWithEmail(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseFunctionResult_Handle(FunctionResultDelegate);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnOperationResult);
 			
 			// Init Java strings
 			auto JEmail = FJavaHelper::ToJavaString(Env, Email);
@@ -349,7 +349,7 @@ void UFirebaseAuthenticationSubsystem::CreateAccountWithEmail(
 }
 
 void UFirebaseAuthenticationSubsystem::SendEmailVerification(
-	FFirebaseFunctionResult FunctionResultDelegate)
+	FOnFirebaseFunctionCompleted OnOperationResult)
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -357,7 +357,7 @@ void UFirebaseAuthenticationSubsystem::SendEmailVerification(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseFunctionResult_Handle(FunctionResultDelegate);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnOperationResult);
 			
 			// Call Java method
 			CallVoidMethod(Env, SendEmailVerification_MethodID);
@@ -367,7 +367,7 @@ void UFirebaseAuthenticationSubsystem::SendEmailVerification(
 }
 
 void UFirebaseAuthenticationSubsystem::SendPasswordResetLinkOnEmail(
-	FFirebaseFunctionResult FunctionResultDelegate, 
+	FOnFirebaseFunctionCompleted OnOperationResult, 
 	const FString& Email)
 {
 #if PLATFORM_ANDROID
@@ -376,7 +376,7 @@ void UFirebaseAuthenticationSubsystem::SendPasswordResetLinkOnEmail(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseFunctionResult_Handle(FunctionResultDelegate);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnOperationResult);
 			
 			// Init Java strings
 			auto JEmail = FJavaHelper::ToJavaString(Env, Email);
@@ -389,7 +389,7 @@ void UFirebaseAuthenticationSubsystem::SendPasswordResetLinkOnEmail(
 }
 
 void UFirebaseAuthenticationSubsystem::UpdatePassword(
-	FFirebaseFunctionResult FunctionResultDelegate, 
+	FOnFirebaseFunctionCompleted OnOperationResult, 
 	const FString& NewPassword)
 {
 #if PLATFORM_ANDROID
@@ -398,7 +398,7 @@ void UFirebaseAuthenticationSubsystem::UpdatePassword(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseFunctionResult_Handle(FunctionResultDelegate);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnOperationResult);
 			
 			// Init Java strings
 			auto JNewPassword = FJavaHelper::ToJavaString(Env, NewPassword);
@@ -419,7 +419,7 @@ void UFirebaseAuthenticationSubsystem::EmailSignOut()
 }
 
 void UFirebaseAuthenticationSubsystem::FacebookSignIn(
-	FFirebaseAuthenticationResult AuthenticationResultDelegate)
+	FOnFirebaseAuthenticationCompleted OnOperationResult)
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -427,7 +427,7 @@ void UFirebaseAuthenticationSubsystem::FacebookSignIn(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseAuthenticationResult_Handle(AuthenticationResultDelegate);
+			Module->AddOnFirebaseAuthenticationCompleted_Handle(OnOperationResult);
 
 			// Call Java method
 			CallVoidMethod(Env, FacebookSignIn_MethodID);
@@ -448,7 +448,7 @@ void UFirebaseAuthenticationSubsystem::FacebookSignOut()
 }
 
 void UFirebaseAuthenticationSubsystem::GoogleSignIn(
-	FGoogleAuthenticationResult AuthenticationResultDelegate)
+	FOnGoogleAuthenticationCompleted OnOperationResult)
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -456,7 +456,7 @@ void UFirebaseAuthenticationSubsystem::GoogleSignIn(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddGoogleAuthenticationResult_Handle(AuthenticationResultDelegate);
+			Module->AddOnGoogleAuthenticationCompleted_Handle(OnOperationResult);
 
 			// Call Java method
 			CallVoidMethod(Env, GoogleSignIn_MethodID);
@@ -466,7 +466,7 @@ void UFirebaseAuthenticationSubsystem::GoogleSignIn(
 }
 
 void UFirebaseAuthenticationSubsystem::GoogleSignOut(
-	FFirebaseFunctionResult FunctionResultDelegate)
+	FOnFirebaseFunctionCompleted OnOperationResult)
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -474,7 +474,7 @@ void UFirebaseAuthenticationSubsystem::GoogleSignOut(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseFunctionResult_Handle(FunctionResultDelegate);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnOperationResult);
 			
 			// Call Java method
 			CallVoidMethod(Env, GoogleSignOut_MethodID);
@@ -484,7 +484,7 @@ void UFirebaseAuthenticationSubsystem::GoogleSignOut(
 }
 
 void UFirebaseAuthenticationSubsystem::GoogleRevokeAccess(
-	FFirebaseFunctionResult FunctionResultDelegate)
+	FOnFirebaseFunctionCompleted OnOperationResult)
 {
 #if PLATFORM_ANDROID
 	if (JNIEnv* Env = FAndroidApplication::GetJavaEnv())
@@ -492,7 +492,7 @@ void UFirebaseAuthenticationSubsystem::GoogleRevokeAccess(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseFunctionResult_Handle(FunctionResultDelegate);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnOperationResult);
 
 			// Call Java method
 			CallVoidMethod(Env, GoogleRevokeAccess_MethodID);
@@ -502,7 +502,7 @@ void UFirebaseAuthenticationSubsystem::GoogleRevokeAccess(
 }
 
 void UFirebaseAuthenticationSubsystem::OAuthSignIn(
-	FFirebaseAuthenticationResult AuthenticationResultDelegate,
+	FOnFirebaseAuthenticationCompleted OnOperationResult,
 	const EOAuthProvider OAuthProvider)
 {
 #if PLATFORM_ANDROID
@@ -511,7 +511,7 @@ void UFirebaseAuthenticationSubsystem::OAuthSignIn(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callback
-			Module->AddFirebaseAuthenticationResult_Handle(AuthenticationResultDelegate);
+			Module->AddOnFirebaseAuthenticationCompleted_Handle(OnOperationResult);
 
 			// Init Java string
 			jstring JProviderURL;
@@ -552,8 +552,8 @@ void UFirebaseAuthenticationSubsystem::OAuthSignOut()
 }
 
 void UFirebaseAuthenticationSubsystem::SignInWithSMSCode(
-	FPhoneAuthenticationResult AuthenticationResultDelegate,
-	FFirebaseFunctionResult CodeSentDelegate,
+	FOnPhoneAuthenticationCompleted OnAuthenticationResult,
+	FOnFirebaseFunctionCompleted OnCodeSentResult,
 	const FString& PhoneNumber, 
 	const int Timeout)
 {
@@ -563,8 +563,8 @@ void UFirebaseAuthenticationSubsystem::SignInWithSMSCode(
 		if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 		{
 			// Bind callbacks
-			Module->AddPhoneAuthenticationResult_Handle(AuthenticationResultDelegate);
-			Module->AddFirebaseFunctionResult_Handle(CodeSentDelegate);
+			Module->AddOnPhoneAuthenticationCompleted_Handle(OnAuthenticationResult);
+			Module->AddOnFirebaseFunctionCompleted_Handle(OnCodeSentResult);
 
 			// Init Java string
 			auto JPhoneNumber = FJavaHelper::ToJavaString(Env, PhoneNumber);
@@ -652,7 +652,7 @@ JNI_METHOD void Java_com_kulichin_firebaseauthentication_BaseAuthentication_Nati
 {
 	if (FFirebaseAuthenticationModule* Module = FFirebaseAuthenticationModule::GetModule())
 	{
-		Module->TriggerFirebaseFunctionResult((ECommonStatusCodes)StatusCode);
+		Module->TriggerOnFirebaseFunctionCompleted((ECommonStatusCodes)StatusCode);
 	}
 }
 
@@ -668,7 +668,7 @@ JNI_METHOD void Java_com_kulichin_firebaseauthentication_BaseAuthentication_Nati
 			Env, 
 			FirebaseUser);
 		
-		Module->TriggerFirebaseAuthenticationResult(
+		Module->TriggerOnFirebaseAuthenticationCompleted(
 			(ECommonStatusCodes)StatusCode,
 			OutFirebaseUser);
 	}
@@ -689,7 +689,7 @@ JNI_METHOD void Java_com_kulichin_firebaseauthentication_BaseAuthentication_Nati
 
 		const FString UECodeFromSMS = FJavaHelper::FStringFromParam(Env, CodeFromSMS);
 		
-		Module->TriggerPhoneAuthenticationResult(
+		Module->TriggerOnPhoneAuthenticationCompleted(
 			(ECommonStatusCodes)StatusCode,
 			OutFirebaseUser,
 			UECodeFromSMS);
@@ -713,7 +713,7 @@ JNI_METHOD void Java_com_kulichin_firebaseauthentication_GoogleAuthentication_Na
 			Env, 
 			GoogleSignInAccount);
 		
-		Module->TriggerGoogleAuthenticationResult(
+		Module->TriggerOnGoogleAuthenticationCompleted(
 			(ECommonStatusCodes)StatusCode, 
 			OutGoogleSignInAccount, 
 			OutFirebaseUser);

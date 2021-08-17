@@ -100,11 +100,11 @@ public:
 	 *	Generic firebase delegates handlers
 	 */
 	INITIALIZE_DELEGATE_HANDLER_OneParam(
-		FFirebaseFunctionResult, FirebaseFunctionResult,
+		FOnFirebaseFunctionCompleted, OnFirebaseFunctionCompleted,
 		const ECommonStatusCodes, StatusCode)
 	
 	INITIALIZE_DELEGATE_HANDLER_TwoParams(
-		FFirebaseAuthenticationResult, FirebaseAuthenticationResult,
+		FOnFirebaseAuthenticationCompleted, OnFirebaseAuthenticationCompleted,
 		const ECommonStatusCodes, StatusCode,
 		const FFirebaseUser&, FirebaseUser)
 
@@ -112,7 +112,7 @@ public:
 	 *	Phone delegates handlers
 	 */
 	INITIALIZE_DELEGATE_HANDLER_ThreeParams(
-		FPhoneAuthenticationResult, PhoneAuthenticationResult,
+		FOnPhoneAuthenticationCompleted, OnPhoneAuthenticationCompleted,
 		const ECommonStatusCodes, StatusCode, 
 		const FFirebaseUser&, FirebaseUser,
 		const FString&, CodeFromSMS)
@@ -121,7 +121,7 @@ public:
 	 *	Google delegates handlers
 	 */
 	INITIALIZE_DELEGATE_HANDLER_ThreeParams(
-		FGoogleAuthenticationResult, GoogleAuthenticationResult,
+		FOnGoogleAuthenticationCompleted, OnGoogleAuthenticationCompleted,
 		const ECommonStatusCodes, StatusCode, 
 		const FGoogleSignInAccount&, GoogleSignInAccount, 
 		const FFirebaseUser&, FirebaseUser)
