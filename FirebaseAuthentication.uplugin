@@ -8,17 +8,23 @@
 	"CreatedBy": "Nikita Klimov",
 	"CreatedByURL": "https://github.com/kulichin",
 	"DocsURL": "https://github.com/kulichin/UnrealFirebaseAuthentication/wiki",
-	"MarketplaceURL": "",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/3285bd4919d5433792ccbdfe034c91e6",
 	"SupportURL": "https://github.com/kulichin/UnrealFirebaseAuthentication/issues",
 	"CanContainContent": true,
 	"IsBetaVersion": true,
 	"IsExperimentalVersion": false,
 	"Installed": false,
+	"EngineVersion": "4.26.0",
 	"Modules": [
 		{
 			"Name": "FirebaseAuthentication",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Mac",
+				"Android"
+			]
 		}
 	]
 }
