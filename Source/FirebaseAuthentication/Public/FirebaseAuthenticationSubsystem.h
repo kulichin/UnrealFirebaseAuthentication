@@ -16,14 +16,14 @@ struct FGoogleSignInAccount
 	 *	starting from new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)}
 	 *	or with GoogleSignInOptions.Builder.requestProfile() configured; "" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString DisplayName;
 
 	/*
 	 *	Returns the email address of the signed in user if GoogleSignInOptions.Builder.requestEmail()
 	 *	was configured; "" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString Email;
 
 	/**
@@ -31,7 +31,7 @@ struct FGoogleSignInAccount
 	 *	starting from new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)}
 	 *	or with GoogleSignInOptions.Builder.requestProfile() configured; "" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString FamilyName;
 
 	/**
@@ -39,13 +39,13 @@ struct FGoogleSignInAccount
 	 *	starting from new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)}
 	 *	or with GoogleSignInOptions.Builder.requestProfile() configured; "" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString GivenName;
 
 	/**
 	 *	Returns all scopes that have been authorized to your application.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	TArray<FString> GrantedScopes;
 
 	/**
@@ -53,7 +53,7 @@ struct FGoogleSignInAccount
 	 *	starting from new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)}
 	 *	or with GoogleSignInOptions.Builder.requestId() configured; "" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString ID;
 
 	/**
@@ -61,7 +61,7 @@ struct FGoogleSignInAccount
 	 *	GoogleSignInOptions.Builder.requestIdToken(String) was configured;
 	 *	"" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString IDToken;
 
 	/**
@@ -71,7 +71,7 @@ struct FGoogleSignInAccount
 	 *	or with GoogleSignInOptions.Builder.requestProfile() configured;
 	 *	"" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString PhotoURL;
 
 	/**
@@ -80,7 +80,7 @@ struct FGoogleSignInAccount
 	 *	GoogleSignInOptions.Builder.requestServerAuthCode(String) is configured;
 	 *	"" otherwise.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "GoogleSignInAccount")
 	FString ServerAuthCode;
 };
 
@@ -93,61 +93,61 @@ struct FFirebaseUser
 	 *	Returns the main display name of this user from the
 	 *	Firebase project's user database.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString DisplayName;
 
 	/**
 	 *	Returns the main email address of the user, as stored in
 	 *	the Firebase project's user database.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString Email;
 
 	/** FirebaseUserMetadata
 	 *	Returns the timestamp at which this account was created as dictated by the
 	 *	server clock in milliseconds since epoch.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	int64 CreationTimestamp;
 
 	/** FirebaseUserMetadata
 	 *	Returns the last signin timestamp as dictated by
 	 *	the server clock in milliseconds since epoch.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	int64 LastSignInTimestamp;
 
 	/**
 	 *	Returns the phone number of the user, as stored in
 	 *	the Firebase project's user database, or "" if none exists.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString PhoneNumber;
 
 	/**
 	 *	Returns the URL of this user's main profile picture, as stored in
 	 *	the Firebase project's user database.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString PhotoURL;
 
 	/**
 	 *	Returns true if the user's email is verified.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	bool bIsEmailVerified;
 
 	/**
 	 *	Always returns FirebaseAuthProvider.PROVIDER_ID
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString ProviderID;
 
 	/**
 	 *	Returns a string used to uniquely identify your user in
 	 *	your Firebase project's user database.
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString UID;
 
 	/**
@@ -155,7 +155,7 @@ struct FFirebaseUser
 	 *	that is, the user account was created with FirebaseAuth.signInAnonymously()
 	 *	and has not been linked to another account with linkWithCredential(AuthCredential).
 	 */
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	bool bIsAnonymous;
 };
 
