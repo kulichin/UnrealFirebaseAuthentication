@@ -128,7 +128,7 @@
 			dst="$S(BuildDir)/gradle/app/src/main/java/com/kulichin/firebaseauthentication/" />
 
 		<copyFile
-			src="$S(PluginDir)/../../../../Build/Android/google-services.json"
+			src="$S(ProjectDir)/Build/Android/google-services.json"
 			dst="$S(BuildDir)/gradle/app/google-services.json" />
 	</gradleCopies>
 
