@@ -103,19 +103,21 @@ struct FFirebaseUser
 	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString Email;
 
-	/** FirebaseUserMetadata
+	/**
+	 *	FirebaseUserMetadata
 	 *	Returns the timestamp at which this account was created as dictated by the
 	 *	server clock in milliseconds since epoch.
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
-	int64 CreationTimestamp;
+	int64 CreationTimestamp = 0;
 
-	/** FirebaseUserMetadata
+	/**
+	 *	FirebaseUserMetadata
 	 *	Returns the last signin timestamp as dictated by
 	 *	the server clock in milliseconds since epoch.
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
-	int64 LastSignInTimestamp;
+	int64 LastSignInTimestamp = 0;
 
 	/**
 	 *	Returns the phone number of the user, as stored in
@@ -131,15 +133,11 @@ struct FFirebaseUser
 	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString PhotoURL;
 
-	/**
-	 *	Returns true if the user's email is verified.
-	 */
+	/** Returns true if the user's email is verified. */
 	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
-	bool bIsEmailVerified;
+	bool bIsEmailVerified = false;
 
-	/**
-	 *	Always returns FirebaseAuthProvider.PROVIDER_ID
-	 */
+	/** Always returns FirebaseAuthProvider.PROVIDER_ID */
 	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
 	FString ProviderID;
 
@@ -156,7 +154,7 @@ struct FFirebaseUser
 	 *	and has not been linked to another account with linkWithCredential(AuthCredential).
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "FirebaseUser")
-	bool bIsAnonymous;
+	bool bIsAnonymous = false;
 };
 
 /**
@@ -426,35 +424,15 @@ enum class EOAuthProvider : uint8
 	Twitter	
 };
 
-/**
- *	Generic firebase delegates
- */
-DECLARE_DYNAMIC_DELEGATE_OneParam(
-	FOnFirebaseFunctionCompleted, 
-	const ECommonStatusCodes, StatusCode);
+/** Generic firebase delegates */
+DECLARE_DYNAMIC_DELEGATE_OneParam(FOnFirebaseFunctionCompleted, const ECommonStatusCodes, StatusCode);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FOnFirebaseAuthenticationCompleted, const ECommonStatusCodes, StatusCode, const FFirebaseUser&, FirebaseUser);
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(
-	FOnFirebaseAuthenticationCompleted, 
-	const ECommonStatusCodes, StatusCode,
-	const FFirebaseUser&, FirebaseUser);
+/** Phone authentication delegates */
+DECLARE_DYNAMIC_DELEGATE_ThreeParams(FOnPhoneAuthenticationCompleted, const ECommonStatusCodes, StatusCode, const FFirebaseUser&, FirebaseUser, const FString&, CodeFromSMS);
 
-/**
- *	Phone authentication delegates
- */
-DECLARE_DYNAMIC_DELEGATE_ThreeParams(
-	FOnPhoneAuthenticationCompleted, 
-	const ECommonStatusCodes, StatusCode,
-	const FFirebaseUser&, FirebaseUser,
-	const FString&, CodeFromSMS);
-
-/**
- *	Google authentication delegates
- */
-DECLARE_DYNAMIC_DELEGATE_ThreeParams(
-	FOnGoogleAuthenticationCompleted, 
-	const ECommonStatusCodes, StatusCode, 
-	const FGoogleSignInAccount&, GoogleSignInAccount, 
-	const FFirebaseUser&, FirebaseUser);
+/** Google authentication delegates */
+DECLARE_DYNAMIC_DELEGATE_ThreeParams(FOnGoogleAuthenticationCompleted, const ECommonStatusCodes, StatusCode, const FGoogleSignInAccount&, GoogleSignInAccount, const FFirebaseUser&, FirebaseUser);
 
 UCLASS()
 class UFirebaseAuthenticationSubsystem : public UGameInstanceSubsystem

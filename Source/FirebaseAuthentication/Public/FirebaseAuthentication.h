@@ -96,34 +96,14 @@ public:
     static FFirebaseAuthenticationModule* GetModule();
 
 #if PLATFORM_ANDROID
-	/**
-	 *	Generic firebase delegates handlers
-	 */
-	INITIALIZE_DELEGATE_HANDLER_OneParam(
-		FOnFirebaseFunctionCompleted, OnFirebaseFunctionCompleted,
-		const ECommonStatusCodes, StatusCode)
-	
-	INITIALIZE_DELEGATE_HANDLER_TwoParams(
-		FOnFirebaseAuthenticationCompleted, OnFirebaseAuthenticationCompleted,
-		const ECommonStatusCodes, StatusCode,
-		const FFirebaseUser&, FirebaseUser)
+	/** Generic firebase delegates handlers */
+	INITIALIZE_DELEGATE_HANDLER_OneParam(FOnFirebaseFunctionCompleted, OnFirebaseFunctionCompleted,	const ECommonStatusCodes, StatusCode)
+	INITIALIZE_DELEGATE_HANDLER_TwoParams(FOnFirebaseAuthenticationCompleted, OnFirebaseAuthenticationCompleted, const ECommonStatusCodes, StatusCode, const FFirebaseUser&, FirebaseUser)
 
-	/**
-	 *	Phone delegates handlers
-	 */
-	INITIALIZE_DELEGATE_HANDLER_ThreeParams(
-		FOnPhoneAuthenticationCompleted, OnPhoneAuthenticationCompleted,
-		const ECommonStatusCodes, StatusCode, 
-		const FFirebaseUser&, FirebaseUser,
-		const FString&, CodeFromSMS)
+	/** Phone delegates handlers */
+	INITIALIZE_DELEGATE_HANDLER_ThreeParams(FOnPhoneAuthenticationCompleted, OnPhoneAuthenticationCompleted, const ECommonStatusCodes, StatusCode, const FFirebaseUser&, FirebaseUser, const FString&, CodeFromSMS)
 	
-	/**
-	 *	Google delegates handlers
-	 */
-	INITIALIZE_DELEGATE_HANDLER_ThreeParams(
-		FOnGoogleAuthenticationCompleted, OnGoogleAuthenticationCompleted,
-		const ECommonStatusCodes, StatusCode, 
-		const FGoogleSignInAccount&, GoogleSignInAccount, 
-		const FFirebaseUser&, FirebaseUser)
+	/** Google delegates handlers */
+	INITIALIZE_DELEGATE_HANDLER_ThreeParams(FOnGoogleAuthenticationCompleted, OnGoogleAuthenticationCompleted, const ECommonStatusCodes, StatusCode, const FGoogleSignInAccount&, GoogleSignInAccount, const FFirebaseUser&, FirebaseUser)
 #endif
 };
